@@ -32,11 +32,48 @@ class RandomWordsState extends State<RandomWords> {
   // 这个集合存储用户喜欢（收藏）的单词对。
   final _saved = new Set<WordPair>();
 
+  // 新页面的内容在在MaterialPageRoute的builder属性中构建，builder是一个匿名函数
+  void _pushSaved() {
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) {
+      final titles = _saved.map((pair) {
+        return new ListTile(
+          title: new Text(
+            pair.asPascalCase,
+            style: _biggerFont,
+          ),
+        );
+      });
+
+      // 添加生成ListTile行的代码。ListTile的divideTiles()方法在每个ListTile之间添加1像素的分割线。 该 divided 变量持有最终的列表项。
+      final divided =
+          ListTile.divideTiles(context: context, tiles: titles).toList();
+
+      // builder返回一个Scaffold，其中包含名为“Saved Suggestions”的新路由的应用栏。 新路由的body由包含ListTiles行的ListView组成; 每行之间通过一个分隔线分隔
+      return new Scaffold(
+        appBar: new AppBar(
+          title: new Text('Save Suggesttions'),
+        ),
+        body: new ListView(
+          children: divided,
+        ),
+      );
+    }));
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text('Startup App'),
+        title: new Text(
+          'Startup App',
+          textAlign: TextAlign.center,
+        ),
+        actions: <Widget>[
+          new IconButton(
+            icon: new Icon(Icons.list),
+            onPressed: _pushSaved,
+          )
+        ],
       ),
       body: _buildSuggestions(),
     );
