@@ -16,7 +16,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //返回一个Material风格的组件
-    return MaterialApp(title: '66666', home: new RandomWords());
+    return MaterialApp(
+        title: '66666',
+        // 更改ui风格
+        theme: new ThemeData(
+          primaryColor: Colors.white,
+        ),
+        home: new RandomWords());
   }
 }
 
